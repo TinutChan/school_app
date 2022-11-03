@@ -1,9 +1,17 @@
 import 'package:api_app/bottom_navigation.dart';
 import 'package:api_app/themes/custom_curvepaitner.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isVisit = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,48 +49,62 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        color: Colors.red,
-                        width: 100,
-                        height: 50,
+                  IntlPhoneField(
+                    initialCountryCode: 'KH',
+                    decoration: InputDecoration(
+                      isDense: true, // Added this
+                      contentPadding: const EdgeInsets.all(10.0),
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(),
                       ),
-                      const SizedBox(
-                        width: 15.0,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: Colors.grey.shade200),
-                          child: TextFormField(
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.only(left: 10.0, right: 10.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
+                    onChanged: (phone) {
+                      debugPrint(phone.completeNumber);
+                    },
+                    onCountryChanged: (country) {
+                      debugPrint('Country changed to: ${country.name}');
+                    },
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.grey.shade200),
                     child: TextFormField(
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
+                      obscureText: isVisit,
+                      obscuringCharacter: "*",
+                      decoration: InputDecoration(
+                        labelText: 'Enter your password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(color: Colors.red),
+                        ),
                         contentPadding:
-                            EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
+                        suffixIcon: GestureDetector(
+                          child: const Icon(Icons.visibility),
+                          onTap: () {
+                            setState(() {
+                              isVisit = !isVisit;
+                            });
+                          },
+                        ),
                       ),
+                      validator: ((value) {
+                        if (value!.trim().isEmpty) {
+                          return 'Password is required';
+                        }
+                        return null;
+                      }),
                     ),
                   ),
+                  const SizedBox(height: 20.0),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      minimumSize: const Size(200, 50),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -93,6 +115,21 @@ class LoginScreen extends StatelessWidget {
                     },
                     child: const Text('Login'),
                   ),
+                  const Padding(
+                      padding: EdgeInsets.all(10.0), child: Text('Or')),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Register/Sign Up'),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: const Text('Forgot Password?'),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
