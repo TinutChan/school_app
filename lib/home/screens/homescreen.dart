@@ -1,4 +1,7 @@
+import 'package:api_app/models/card_items.dart';
 import 'package:api_app/models/icon_items.dart';
+import 'package:api_app/widgets/custom_cardwidget.dart';
+import 'package:api_app/widgets/custom_category.dart';
 import 'package:api_app/widgets/custom_iconwidget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -32,135 +35,144 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.all(10.0),
-            width: double.infinity,
-            height: 150,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                scrollDirection: Axis.horizontal,
-                aspectRatio: 2.0,
-                viewportFraction: 1,
-                initialPage: 1,
-                autoPlay: true,
-                autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlayInterval: const Duration(seconds: 3),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                },
-              ),
-              items: imgList
-                  .map(
-                    (item) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                            image: NetworkImage(item), fit: BoxFit.cover),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.all(10.0),
+              width: double.infinity,
+              height: 150,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  scrollDirection: Axis.horizontal,
+                  aspectRatio: 2.0,
+                  viewportFraction: 1,
+                  initialPage: 1,
+                  autoPlay: true,
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
+                ),
+                items: imgList
+                    .map(
+                      (item) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                              image: NetworkImage(item), fit: BoxFit.cover),
+                        ),
                       ),
+                    )
+                    .toList(),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: imgList.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => _controller.animateToPage(entry.key),
+                  child: Container(
+                    width: 7.0,
+                    height: 7.0,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 0.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.green.shade900)
+                          .withOpacity(_current == entry.key ? 0.9 : 0.4),
                     ),
-                  )
-                  .toList(),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 7.0,
-                  height: 7.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 0.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white
-                            : Colors.green.shade900)
-                        .withOpacity(_current == entry.key ? 0.9 : 0.4),
                   ),
-                ),
-              );
-            }).toList(),
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-                left: 10, top: 25.0, right: 10, bottom: 18.0),
-            padding: const EdgeInsets.only(top: 8.0),
-            height: 100,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 1,
-                  color: Colors.grey.withOpacity(0.3),
-                  offset: const Offset(0.1, 0.1),
-                  spreadRadius: 0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-            ),
-            child: Wrap(
-              alignment: WrapAlignment.spaceAround,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: itemsicon.map((e) {
-                return CustomIconWidget(
-                  images: e.images,
-                  text: e.text,
-                  onPress: e.onPress,
                 );
               }).toList(),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              children: [
-                const Text(
-                  'Recommended',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      const Text(
-                        'See More',
-                        style: TextStyle(color: Colors.green),
-                      ),
-                      const SizedBox(
-                        width: 7.0,
-                      ),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+            Container(
+              margin: const EdgeInsets.only(
+                  left: 10, top: 25.0, right: 10, bottom: 18.0),
+              padding: const EdgeInsets.only(top: 8.0),
+              height: 100,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 1,
+                    color: Colors.grey.withOpacity(0.3),
+                    offset: const Offset(0.1, 0.1),
+                    spreadRadius: 0,
                   ),
-                ),
-              ],
+                ],
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+              ),
+              child: Wrap(
+                alignment: WrapAlignment.spaceAround,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: itemsicon.map((e) {
+                  return CustomIconWidget(
+                    images: e.images,
+                    text: e.text,
+                    onPress: e.onPress,
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-        ],
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: CustomCategory(
+                label: 'Recommended',
+              ),
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
+                children: carditem.map((e) {
+                  return const CustomCardWidget();
+                }).toList(),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: CustomCategory(
+                label: 'Most Viewed',
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
+                children: carditem.map((e) {
+                  return const CustomCardWidget();
+                }).toList(),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: CustomCategory(
+                label: 'Lastest Book',
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Wrap(
+                children: carditem.map((e) {
+                  return const CustomCardWidget();
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
