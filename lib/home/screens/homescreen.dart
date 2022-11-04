@@ -136,6 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 8.0,
             ),
             SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               scrollDirection: Axis.horizontal,
               child: Wrap(
                 children: carditem.map((e) {
@@ -150,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               scrollDirection: Axis.horizontal,
               child: Wrap(
                 children: carditem.map((e) {
@@ -164,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SingleChildScrollView(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
               scrollDirection: Axis.horizontal,
               child: Wrap(
                 children: carditem.map((e) {
