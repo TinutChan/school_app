@@ -1,3 +1,5 @@
+import 'package:api_app/models/icon_items.dart';
+import 'package:api_app/widgets/custom_iconwidget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +14,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _controller = CarouselController();
   int _current = 0;
   final List<String> imgList = [
-    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-    'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+    'https://www.incimages.com/uploaded_files/image/1024x576/getty_487300925_9705859704500120_66418.jpg',
+    'https://cdn1.byjus.com/wp-content/uploads/2018/10/NCERT-Books-for-Class-10.jpg',
+    'https://www.thecreativepenn.com/wp-content/uploads/2016/01/turn-your-book-into-a-multimedia-course.jpg',
+    'http://static1.squarespace.com/static/5ac78bfea2772c5ffa1cc8a5/t/5eb4187a8a1cef378523f0a0/1588861052953/book-launch-blueprint+copy.png?format=1500w',
+    'https://www.thecreativepenn.com/wp-content/uploads/2018/08/How-to-get-book-reviews-1024x576.png',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1FzJstv0hfs1enrhq70bM6OAtlnKXIpuuS5eIh1L6PGPNDk3KlAfZmsx5cXhTZNTyAE4&usqp=CAU',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmk-9ZkdkNcyX2JwO-KMqZ8qGzhKq01sMffA&usqp=CAU',
+    'https://videohive.img.customer.envatousercontent.com/files/261029556/comic%20book%20template%20preview.jpg?auto=compress%2Cformat&fit=crop&crop=top&max-h=8000&max-w=590&s=387ad7a7cc31b6d61cc26a10cfe3ed86',
   ];
 
   @override
@@ -89,16 +93,33 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Container(
             margin: const EdgeInsets.only(
-                left: 10, top: 12.0, right: 10, bottom: 8.0),
+                left: 10, top: 25.0, right: 10, bottom: 18.0),
+            padding: const EdgeInsets.only(top: 8.0),
             height: 100,
-            decoration: BoxDecoration(boxShadow: [
-              BoxShadow(
-                blurRadius: 1,
-                color: Colors.grey.withOpacity(0.3),
-                offset: const Offset(0.1, 0.1),
-                spreadRadius: 0,
-              )
-            ], borderRadius: BorderRadius.circular(10.0), color: Colors.white),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 1,
+                  color: Colors.grey.withOpacity(0.3),
+                  offset: const Offset(0.1, 0.1),
+                  spreadRadius: 0,
+                ),
+              ],
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+            ),
+            child: Wrap(
+              alignment: WrapAlignment.spaceAround,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: itemsicon.map((e) {
+                return CustomIconWidget(
+                  images: e.images,
+                  text: e.text,
+                  onPress: e.onPress,
+                );
+              }).toList(),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -138,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
